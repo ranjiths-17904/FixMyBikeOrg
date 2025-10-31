@@ -1,0 +1,69 @@
+# FixMyBike Server Environment Configuration
+# Copy this file to .env and fill in your actual values
+
+# ============================================================================
+# SERVER CONFIGURATION
+# ============================================================================
+PORT=5001
+NODE_ENV=development
+
+# ============================================================================
+# DATABASE CONFIGURATION
+# ============================================================================
+MONGO_URL=mongodb://localhost:27017/bikeServiceApp
+
+# ============================================================================
+# JWT CONFIGURATION
+# ============================================================================
+JWT_SECRET=fixmybike-super-secret-jwt-key-2024-production-ready
+
+# ============================================================================
+# EMAIL CONFIGURATION (REQUIRED for real OTP delivery)
+# ============================================================================
+# Priority 1: Gmail (Recommended)
+EMAIL_USER=your-gmail@gmail.com
+EMAIL_PASS=your-16-character-app-password
+
+# Alternative email services (optional)
+EMAIL_SERVICE=gmail
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+
+# ============================================================================
+# STRIPE PAYMENT GATEWAY CONFIGURATION
+# ============================================================================
+# Get these from https://dashboard.stripe.com/apikeys
+STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key_here
+STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key_here
+STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_here
+
+# ============================================================================
+# PAYMENT CONFIGURATION
+# ============================================================================
+PAYMENT_SUCCESS_URL=https://fixmybike.com/payment-success
+PAYMENT_CANCEL_URL=https://fixmybike.com/payment-cancel
+
+# ============================================================================
+# NOTIFICATION CONFIGURATION
+# ============================================================================
+NOTIFICATION_CLEANUP_DAYS=30
+REMINDER_HOURS_BEFORE=4
+
+# ============================================================================
+# SECURITY CONFIGURATION
+# ============================================================================
+CORS_ORIGIN=http://localhost:5173,http://localhost:3000
+SESSION_SECRET=your-session-secret-here
+
+# ============================================================================
+# DEVELOPMENT SETTINGS
+# ============================================================================
+DEBUG=true
+LOG_LEVEL=info
+
+# ============================================================================
+# PRODUCTION SETTINGS (Change these for production)
+# ============================================================================
+# NODE_ENV=production
+# DEBUG=false
+# LOG_LEVEL=error

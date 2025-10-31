@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - FixMyBike</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .info { background-color: #d1ecf1; border-color: #bee5eb; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        pre { background-color: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>FixMyBike API Test Page</h1>
+    
+    <div class="test-section info">
+        <h3>Server Status</h3>
+        <p>Testing connectivity to: <strong>https://fixmybike-server.onrender.com</strong></p>
+        <button onclick="testServerHealth()">Test Server Health</button>
+        <button onclick="testRootEndpoint()">Test Root Endpoint</button>
+        <div id="server-status"></div>
+    </div>
+
+    <div class="test-section info">
+        <h3>Authentication Endpoints</h3>
+        <button onclick="testLoginEndpoint()">Test Login Endpoint</button>
+        <button onclick="testSignupEndpoint()">Test Signup Endpoint</button>
+        <div id="auth-status"></div>
+    </div>
+
+    <div class="test-section info">
+        <h3>API Configuration</h3>
+        <div id="api-config"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://fixmybike-server.onrender.com';
+        
+        function displayResult(elementId, content, isSuccess = true) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<pre class="${isSuccess ? 'success' : 'error'}">${JSON.stringify(content, null, 2)}</pre>`;
+        }
+
+        async function testServerHealth() {
+            try {
+                const response = await fetch(`${API_BASE}/api/health`);
+                const data = await response.json();
+                displayResult('server-status', {
+                    status: response.status,
+                    data: data,
+                    timestamp: new Date().toISOString()
+                }, response.ok);
+            } catch (error) {
+                displayResult('server-status', {
+                    error: error.message,
+                    timestamp: new Date().toISOString()
+                }, false);
+            }
+        }
+
+        async function testRootEndpoint() {
+            try {
+                const response = await fetch(`${API_BASE}/`);
+                const data = await response.json();
+                displayResult('server-status', {
+                    status: response.status,
+                    data: data,
+                    timestamp: new Date().toISOString()
+                }, response.ok);
+            } catch (error) {
+                displayResult('server-status', {
+                    error: error.message,
+                    timestamp: new Date().toISOString()
+                }, false);
+            }
+        }
+
+        async function testLoginEndpoint() {
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        emailOrUser: 'test@test.com',
+                        password: 'test123'
+                    })
+                });
+                const data = await response.json();
+                displayResult('auth-status', {
+                    status: response.status,
+                    data: data,
+                    timestamp: new Date().toISOString()
+                }, response.ok);
+            } catch (error) {
+                displayResult('auth-status', {
+                    error: error.message,
+                    timestamp: new Date().toISOString()
+                }, false);
+            }
+        }
+
+        async function testSignupEndpoint() {
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/signup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'testuser',
+                        email: 'test@test.com',
+                        password: 'test123',
+                        phone: '1234567890'
+                    })
+                });
+                const data = await response.json();
+                displayResult('auth-status', {
+                    status: response.status,
+                    data: data,
+                    timestamp: new Date().toISOString()
+                }, response.ok);
+            } catch (error) {
+                displayResult('auth-status', {
+                    error: error.message,
+                    timestamp: new Date().toISOString()
+                }, false);
+            }
+        }
+
+        // Display API configuration
+        document.getElementById('api-config').innerHTML = `
+            <pre class="info">
+API Base URL: ${API_BASE}
+Available Endpoints:
+- / (Root)
+- /api/health (Health Check)
+- /api/auth/login (Login)
+- /api/auth/signup (Signup)
+- /api/auth/me (Get User)
+- /api/bookings (Bookings)
+- /api/users (Users)
+- /api/notifications (Notifications)
+- /api/payments (Payments)
+            </pre>
+        `;
+
+        // Auto-test server health on page load
+        window.onload = function() {
+            testServerHealth();
+        };
+    </script>
+</body>
+</html>
