@@ -70,7 +70,7 @@ The application is fully optimized for mobile devices with:
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/ranjiths-17904/FixMyBikeOrg.git
    cd FixMyBikesDemo/BikeServiceApl/Server
    ```
 
